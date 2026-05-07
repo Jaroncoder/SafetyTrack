@@ -1,0 +1,46 @@
+body {
+  background: #fdebf1;
+  display: flex;
+  justify-content: center;
+}
+
+.app-container {
+  width: 360px;
+  height: 750px;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+}
+
+.role-switch button {
+  margin: 5px;
+}
+
+.active {
+  background: #ff5c8a;
+  color: white;
+}
+
+.sos-btn {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  font-size: 24px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 5px 0;
+}
+
+.alert-card {
+  border: 2px solid red;
+  padding: 20px;
+}
