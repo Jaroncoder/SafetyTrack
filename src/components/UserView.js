@@ -11,6 +11,7 @@ function UserView() {
   const [buttonText, setButtonText] = useState("SOS");
   const [volunteers, setVolunteers] = useState([]); 
   const [assignedHelper, setAssignedHelper] = useState(null);
+  const [expectedSafeCode, setExpectedSafeCode] = useState("");
   const [emergencyId, setEmergencyId] = useState(null);
   const [isRescued, setIsRescued] = useState(false);
   const [inputCode, setInputCode] = useState("");
@@ -60,6 +61,7 @@ function UserView() {
       const emData = snapshot.val();
       
       if (emData && emData.status === "accepted" && emData.helperUid) {
+        setExpectedSafeCode(emData.safeCode || "");
         // Now listen to the specific volunteer's LIVE location
         const volunteerRef = ref(db, `volunteers/${emData.helperUid}`);
 
@@ -75,7 +77,6 @@ function UserView() {
               name: vData.name,
               phone: vData.phone,
               sector: vData.sector,
-              safeCode: emData.safeCode,
               lat: vData.lat,
               lng: vData.lng,
             });
@@ -182,7 +183,7 @@ function UserView() {
 
   const handleRescue = () => {
     if (!emergencyId || !assignedHelper) return;
-    if (inputCode !== assignedHelper.safeCode) {
+    if (!expectedSafeCode || inputCode.trim() !== expectedSafeCode) {
       alert("Invalid Safe Code!");
       return;
     }
@@ -263,10 +264,6 @@ function UserView() {
                 volunteerLabel={`Volunteer: ${assignedHelper.name}`}
               />
               <h3 style={{ margin: '0 0 10px 0', color: '#2e7d32' }}>Volunteer is Coming!</h3>
-              <div style={{ backgroundColor: '#2e7d32', color: 'white', padding: '10px', borderRadius: '8px', marginBottom: '15px' }}>
-                <span style={{ fontSize: '0.7rem', textTransform: 'uppercase' }}>Your Secret Verification Code:</span>
-                <div style={{ fontSize: '1.8rem', fontWeight: 'bold', letterSpacing: '4px' }}>{assignedHelper.safeCode}</div>
-              </div>
               {assignedHelper.lat && assignedHelper.lng && (
                 <p>
                   <strong>{assignedHelper.name}</strong> • <span style={{ color: '#d32f2f', fontWeight: 'bold' }}>
